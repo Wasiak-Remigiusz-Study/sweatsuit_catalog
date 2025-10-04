@@ -1,6 +1,5 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 import pandas as pd
 
@@ -8,7 +7,9 @@ import pandas as pd
 st.title("Zena's Amazing Athleisure Catalog")
 
 
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
+
 my_dataframe = session.table("zenas_athleisure_db.products.catalog_for_website").select(col('COLOR_OR_STYLE')).collect()
 # st.dataframe(data=my_dataframe, use_container_width=True)
 
